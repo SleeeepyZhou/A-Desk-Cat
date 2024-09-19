@@ -1,0 +1,9 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://64m7i3rabojt"]
+
+[ext_resource type="FontFile" uid="uid://bn3mv4pkx8ple" path="res://Res/fusion-pixel-10px-monospaced-zh_hans.woff2" id="1_oqpal"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ojwj6"]
+
+[resource]
+default_font = ExtResource("1_oqpal")
+ProgressBar/styles/background = SubResource("StyleBoxTexture_ojwj6")

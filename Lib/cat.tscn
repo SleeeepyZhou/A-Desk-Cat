@@ -1,0 +1,276 @@
+[gd_scene load_steps=34 format=3 uid="uid://y07qlyd3dqgg"]
+
+[ext_resource type="Script" path="res://Lib/cat.gd" id="1_7nd7h"]
+[ext_resource type="SpriteFrames" uid="uid://dxrj7acu0bsh0" path="res://Res/bluecat_frames.tres" id="1_442ws"]
+[ext_resource type="Script" path="res://Lib/StateManage.gd" id="3_c2sts"]
+[ext_resource type="Script" path="res://Lib/States/sit.gd" id="6_jj3r8"]
+[ext_resource type="Script" path="res://Lib/States/walk.gd" id="7_mrwdd"]
+[ext_resource type="Theme" uid="uid://64m7i3rabojt" path="res://Res/theme.tres" id="7_udwmp"]
+[ext_resource type="Script" path="res://Lib/States/run.gd" id="8_0ry58"]
+[ext_resource type="Script" path="res://Lib/Panel.gd" id="8_1tn2o"]
+[ext_resource type="Texture2D" uid="uid://c8mhygw763et8" path="res://Res/Bar.png" id="8_m3mtj"]
+[ext_resource type="Texture2D" uid="uid://7a1t7oxm86mk" path="res://Res/bar.tres" id="9_e0v0w"]
+[ext_resource type="Texture2D" uid="uid://2qnmiibnpys5" path="res://Res/button.png" id="11_vdahe"]
+[ext_resource type="Texture2D" uid="uid://na4uonoxcvit" path="res://Res/space.png" id="12_hrv5u"]
+[ext_resource type="Texture2D" uid="uid://npsfnmlvcc2m" path="res://Res/i.png" id="13_gobmh"]
+[ext_resource type="Texture2D" uid="uid://c8udqok03sdjo" path="res://Res/space.tres" id="13_yx7tm"]
+[ext_resource type="Texture2D" uid="uid://c2dbqp02buv42" path="res://Res/ipress.png" id="14_ss2tq"]
+[ext_resource type="Texture2D" uid="uid://bbfj87pynxv3u" path="res://Res/icon.png" id="16_negn7"]
+[ext_resource type="Texture2D" uid="uid://drfa86kb7j663" path="res://Res/icon.tres" id="17_48qkn"]
+[ext_resource type="Texture2D" uid="uid://cx5fxbliwbwja" path="res://Res/iconpress.png" id="17_mdf2b"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sgod2"]
+radius = 55.0091
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f3djn"]
+size = Vector2(262, 262)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7yj74"]
+atlas = ExtResource("8_m3mtj")
+region = Rect2(0, 32, 48, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_77lgy"]
+atlas = ExtResource("8_m3mtj")
+region = Rect2(56, 48, 40, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q40kc"]
+atlas = ExtResource("8_m3mtj")
+region = Rect2(0, 32, 48, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_81eyf"]
+atlas = ExtResource("11_vdahe")
+region = Rect2(32, 0, 32, 16)
+margin = Rect2(-7, -2, 0, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_015vj"]
+atlas = ExtResource("11_vdahe")
+region = Rect2(32, 16, 32, 16)
+margin = Rect2(-7, -2, 0, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mw1u0"]
+atlas = ExtResource("12_hrv5u")
+region = Rect2(0, 0, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sbeux"]
+atlas = ExtResource("16_negn7")
+region = Rect2(0, 16, 32, 32)
+margin = Rect2(-7, -7, -14, -14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mgcjc"]
+atlas = ExtResource("17_mdf2b")
+region = Rect2(0, 16, 32, 32)
+margin = Rect2(-7, -7, -14, -14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tkium"]
+atlas = ExtResource("16_negn7")
+region = Rect2(8, 72, 16, 16)
+margin = Rect2(1, 0, 0, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ti54h"]
+atlas = ExtResource("17_mdf2b")
+region = Rect2(8, 72, 16, 16)
+margin = Rect2(1, 0, 0, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xxo08"]
+atlas = ExtResource("17_mdf2b")
+region = Rect2(8, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ehffe"]
+atlas = ExtResource("16_negn7")
+region = Rect2(8, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nywat"]
+atlas = ExtResource("17_mdf2b")
+region = Rect2(8, 48, 16, 16)
+
+[node name="Cat" type="CharacterBody2D"]
+input_pickable = true
+script = ExtResource("1_7nd7h")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, -6)
+rotation = 1.5708
+shape = SubResource("CircleShape2D_sgod2")
+metadata/_edit_lock_ = true
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Hunger" type="Timer" parent="."]
+autostart = true
+
+[node name="Miao" type="AudioStreamPlayer" parent="."]
+
+[node name="Animated" type="AnimatedSprite2D" parent="."]
+scale = Vector2(8, 8)
+sprite_frames = ExtResource("1_442ws")
+animation = &"backrightlay"
+autoplay = "frontsit"
+speed_scale = 2.0
+script = ExtResource("3_c2sts")
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="sit" type="Node" parent="Animated"]
+script = ExtResource("6_jj3r8")
+
+[node name="walk" type="Node" parent="Animated"]
+script = ExtResource("7_mrwdd")
+
+[node name="run" type="Node" parent="Animated"]
+script = ExtResource("8_0ry58")
+
+[node name="Area" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_f3djn")
+disabled = true
+metadata/_edit_lock_ = true
+
+[node name="Panel" type="Control" parent="."]
+custom_minimum_size = Vector2(262, 262)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme = ExtResource("7_udwmp")
+script = ExtResource("8_1tn2o")
+metadata/_edit_lock_ = true
+
+[node name="Box" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -51.0
+offset_top = 4.0
+offset_right = -3.0
+offset_bottom = -128.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+theme_override_constants/separation = 0
+alignment = 2
+metadata/_edit_lock_ = true
+
+[node name="HP" type="TextureProgressBar" parent="Panel/Box"]
+layout_mode = 2
+value = 100.0
+fill_mode = 1
+texture_under = SubResource("AtlasTexture_7yj74")
+texture_progress = SubResource("AtlasTexture_77lgy")
+texture_progress_offset = Vector2(8, 0)
+
+[node name="Hunger" type="TextureProgressBar" parent="Panel/Box"]
+layout_mode = 2
+step = 0.1
+value = 100.0
+fill_mode = 1
+texture_under = SubResource("AtlasTexture_q40kc")
+texture_progress = ExtResource("9_e0v0w")
+texture_progress_offset = Vector2(8, 0)
+
+[node name="Esc" type="TextureButton" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -129.0
+offset_top = 105.0
+offset_right = -111.0
+offset_bottom = 117.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+mouse_default_cursor_shape = 2
+texture_normal = SubResource("AtlasTexture_81eyf")
+texture_pressed = SubResource("AtlasTexture_015vj")
+ignore_texture_size = true
+metadata/_edit_lock_ = true
+
+[node name="ShiftRun" type="TextureButton" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -129.0
+offset_top = 71.0
+offset_right = -97.0
+offset_bottom = 87.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+mouse_default_cursor_shape = 2
+toggle_mode = true
+texture_normal = SubResource("AtlasTexture_mw1u0")
+texture_pressed = ExtResource("13_yx7tm")
+ignore_texture_size = true
+metadata/_edit_lock_ = true
+
+[node name="Help" type="TextureButton" parent="Panel"]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 232.0
+offset_right = 53.0
+offset_bottom = 247.0
+scale = Vector2(2, 2)
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("13_gobmh")
+texture_pressed = ExtResource("14_ss2tq")
+ignore_texture_size = true
+metadata/_edit_lock_ = true
+
+[node name="ButtonBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 226.0
+offset_top = 106.0
+offset_right = 244.0
+offset_bottom = 184.0
+scale = Vector2(2, 2)
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="Setting" type="TextureButton" parent="Panel/ButtonBox"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+texture_normal = SubResource("AtlasTexture_sbeux")
+texture_pressed = SubResource("AtlasTexture_mgcjc")
+
+[node name="Audio" type="TextureButton" parent="Panel/ButtonBox"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+toggle_mode = true
+texture_normal = SubResource("AtlasTexture_tkium")
+texture_pressed = SubResource("AtlasTexture_ti54h")
+
+[node name="Keyboard" type="TextureButton" parent="Panel/ButtonBox"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+toggle_mode = true
+texture_normal = ExtResource("17_48qkn")
+texture_pressed = SubResource("AtlasTexture_xxo08")
+
+[node name="Fish" type="TextureButton" parent="Panel/ButtonBox"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+toggle_mode = true
+texture_normal = SubResource("AtlasTexture_ehffe")
+texture_pressed = SubResource("AtlasTexture_nywat")
+
+[connection signal="mouse_entered" from="." to="Panel" method="_on_cat_mouse_entered"]
+[connection signal="mouse_exited" from="." to="Panel" method="_on_cat_mouse_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Hunger" to="." method="_on_hunger_timeout"]
+[connection signal="finished" from="Miao" to="." method="_on_miao_finished"]
+[connection signal="animation_changed" from="Animated" to="." method="_on_animation_changed"]
+[connection signal="pressed" from="Panel/Esc" to="Panel" method="_on_esc_pressed"]
+[connection signal="toggled" from="Panel/ButtonBox/Audio" to="Panel" method="_on_audio_toggled"]
+[connection signal="toggled" from="Panel/ButtonBox/Fish" to="Panel" method="_on_fish_toggled"]
