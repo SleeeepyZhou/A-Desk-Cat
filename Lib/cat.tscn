@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://y07qlyd3dqgg"]
+[gd_scene load_steps=57 format=3 uid="uid://y07qlyd3dqgg"]
 
 [ext_resource type="Script" path="res://Lib/cat.gd" id="1_7nd7h"]
 [ext_resource type="SpriteFrames" uid="uid://dxrj7acu0bsh0" path="res://Res/bluecat_frames.tres" id="1_442ws"]
@@ -35,6 +35,26 @@ radius = 55.0091
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f3djn"]
 size = Vector2(262, 262)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ts0s8"]
+texture = ExtResource("24_h0ciy")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kbu5e"]
+atlas = ExtResource("25_yrjpa")
+region = Rect2(0, 64, 48, 32)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6c6vj"]
+texture = SubResource("AtlasTexture_kbu5e")
+
+[sub_resource type="Theme" id="Theme_4ef7b"]
+default_font = ExtResource("26_byvxs")
+default_font_size = 30
+MarginContainer/constants/margin_bottom = 15
+MarginContainer/constants/margin_left = 15
+MarginContainer/constants/margin_right = 15
+MarginContainer/constants/margin_top = 15
+Panel/styles/panel = SubResource("StyleBoxTexture_ts0s8")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_6c6vj")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7yj74"]
 atlas = ExtResource("8_m3mtj")
@@ -101,16 +121,6 @@ region = Rect2(0, 0, 32, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_e4xvk"]
 atlas = ExtResource("21_idq1s")
 region = Rect2(0, 16, 32, 16)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ts0s8"]
-texture = ExtResource("24_h0ciy")
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kbu5e"]
-atlas = ExtResource("25_yrjpa")
-region = Rect2(0, 64, 48, 32)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6c6vj"]
-texture = SubResource("AtlasTexture_kbu5e")
 
 [sub_resource type="Theme" id="Theme_ebyby"]
 default_font = ExtResource("26_byvxs")
@@ -196,7 +206,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme = ExtResource("7_udwmp")
+theme = SubResource("Theme_4ef7b")
 
 [node name="Panel" type="Control" parent="."]
 visible = false
@@ -385,6 +395,8 @@ layout_mode = 2
 [node name="Label" type="Label" parent="Panel/InfBox/Panel/Box/Setting/Setting/API/Url"]
 layout_mode = 2
 text = "Url"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Url" type="LineEdit" parent="Panel/InfBox/Panel/Box/Setting/Setting/API/Url"]
 layout_mode = 2

@@ -57,24 +57,49 @@ var last_food : String = "Unknown"
 func feed(files):
 	var path : String = files[0]
 	if $InfBox/Panel/Box/Setting/Setting/AI.button_pressed:
-		if IMAGE_TYPE.has(path.get_extension().to_upper()):
+		if IMAGE_TYPE.has(path.get_extension().to_upper()) and !API.read().is_empty():
 			var image_path := path
-			var temp_an = await API.run_VLMapi(prompt, 1, 10, image_path, 1, format)
+			var temp_an = await API.run_VLMapi(prompt, 1, 50, image_path, 1, format)
+			print(temp_an)
 			var an = JSON.parse_string(temp_an)
-			if an["isFood"]:
-				last_food = an["foodName"]
-				$"..".hungry += an["foodNutrition"]["enerage"] / 10
-				var time = Time.get_datetime_string_from_system()
-				if FileAccess.file_exists(SAVE):
-					var data = FileAccess.open(SAVE, FileAccess.READ).get_var()
-					data[time] = an
-					var dir = FileAccess.open(SAVE, FileAccess.WRITE)
-					dir.store_var(data)
-					dir.close()
+			if an:
+				if an["isFood"]:
+					last_food = an["foodName"]
+					$"..".hungry += an["foodNutrition"]["enerage"] / 10
+					var time = Time.get_datetime_string_from_system()
+					if FileAccess.file_exists(SAVE):
+						var data = FileAccess.open(SAVE, FileAccess.READ).get_var()
+						data[time] = an
+						var dir = FileAccess.open(SAVE, FileAccess.WRITE)
+						dir.store_var(data)
+						dir.close()
+					else:
+						var dir = FileAccess.open(SAVE, FileAccess.WRITE)
+						dir.store_var({time:an})
+						dir.close()
 				else:
-					var dir = FileAccess.open(SAVE, FileAccess.WRITE)
-					dir.store_var({time:an})
-					dir.close()
+					var lab = Label.new()
+					lab.text = "This not food"
+					lab.modulate = Color.RED
+					lab.autowrap_mode = TextServer.AUTOWRAP_WORD
+					lab.rotation_degrees = -90
+					$"../Area/Box".add_child(lab)
+					lab.position = Vector2(10, 60)
+					var tween = get_tree().create_tween()
+					tween.tween_property(lab, "position", Vector2(-30, 60), 5)
+					tween.tween_callback(lab.queue_free)
+			else:
+				var lab = Label.new()
+				lab.text = temp_an
+				lab.modulate = Color.RED
+				lab.autowrap_mode = TextServer.AUTOWRAP_WORD
+				lab.rotation_degrees = -90
+				$"../Area/Box".add_child(lab)
+				lab.position = Vector2(10, 60)
+				var tween = get_tree().create_tween()
+				tween.tween_property(lab, "position", Vector2(-30, 60), 5)
+				tween.tween_callback(lab.queue_free)
+			
 	else:
 		var data = FileAccess.open(path, FileAccess.READ).get_length() / 100000
 		last_food = "Unknown"

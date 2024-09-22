@@ -43,6 +43,9 @@ func reset():
 func save(api_url : String, api_key : String):
 	VLMutils.api_save([api_url, api_key])
 
+func read():
+	return VLMutils.readsave()[1]
+
 ## 获取id为format_id的format
 func get_format(format_id : int = 0) -> Dictionary:
 	var format_save = load(FORMATSAVE).new()
