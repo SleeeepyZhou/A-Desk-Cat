@@ -117,4 +117,12 @@ func feed(files):
 {"foodName":"Dog kibble","foodNutrition":{"carbohydrate":50,"enerage":350,"fat":15,"mass":100,"protein":25},"isFood":true}
 
 '''
-
+const CHEESEBURGER = preload("res://Res/cheeseburger.ogg")
+func _on_burger_pressed():
+	var burger = AudioStreamPlayer.new()
+	burger.stream = CHEESEBURGER
+	burger.finished.connect(burger.queue_free)
+	add_child(burger)
+	$"..".hungry += 10
+	last_food = "cheese burger"
+	burger.play()

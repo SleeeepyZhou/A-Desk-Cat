@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://y07qlyd3dqgg"]
+[gd_scene load_steps=58 format=3 uid="uid://y07qlyd3dqgg"]
 
 [ext_resource type="Script" path="res://Lib/cat.gd" id="1_7nd7h"]
 [ext_resource type="SpriteFrames" uid="uid://dxrj7acu0bsh0" path="res://Res/bluecat_frames.tres" id="1_442ws"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://na4uonoxcvit" path="res://Res/space.png" id="12_hrv5u"]
 [ext_resource type="Texture2D" uid="uid://npsfnmlvcc2m" path="res://Res/i.png" id="13_gobmh"]
 [ext_resource type="Texture2D" uid="uid://c8udqok03sdjo" path="res://Res/space.tres" id="13_yx7tm"]
+[ext_resource type="Texture2D" uid="uid://dq0tpqovn8id2" path="res://Res/burger.png" id="14_8jro4"]
 [ext_resource type="Texture2D" uid="uid://c2dbqp02buv42" path="res://Res/ipress.png" id="14_ss2tq"]
 [ext_resource type="Texture2D" uid="uid://bbfj87pynxv3u" path="res://Res/icon.png" id="16_negn7"]
 [ext_resource type="Texture2D" uid="uid://drfa86kb7j663" path="res://Res/icon.tres" id="17_48qkn"]
@@ -209,7 +210,6 @@ mouse_filter = 2
 theme = SubResource("Theme_4ef7b")
 
 [node name="Panel" type="Control" parent="."]
-visible = false
 custom_minimum_size = Vector2(262, 262)
 layout_mode = 3
 anchors_preset = 15
@@ -255,6 +255,14 @@ fill_mode = 1
 texture_under = SubResource("AtlasTexture_q40kc")
 texture_progress = ExtResource("9_e0v0w")
 texture_progress_offset = Vector2(8, 0)
+
+[node name="Burger" type="TextureButton" parent="Panel"]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("14_8jro4")
 
 [node name="Esc" type="TextureButton" parent="Panel"]
 layout_mode = 1
@@ -546,6 +554,7 @@ metadata/_edit_lock_ = true
 [connection signal="finished" from="Miao" to="." method="_on_miao_finished"]
 [connection signal="animation_changed" from="Animated" to="." method="_on_animation_changed"]
 [connection signal="mouse_exited" from="Panel" to="Panel" method="_on_cat_mouse_exited"]
+[connection signal="pressed" from="Panel/Burger" to="Panel" method="_on_burger_pressed"]
 [connection signal="pressed" from="Panel/Esc" to="Panel" method="_on_esc_pressed"]
 [connection signal="pressed" from="Panel/Help" to="Panel/InfBox" method="_on_help_pressed"]
 [connection signal="pressed" from="Panel/ButtonBox/Setting" to="Panel/InfBox" method="_on_setting_pressed"]

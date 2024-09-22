@@ -13,6 +13,7 @@ extends CharacterBody2D
 			var lab = Label.new()
 			lab.text = add
 			lab.rotation_degrees = -90
+			lab.autowrap_mode = TextServer.AUTOWRAP_WORD
 			$Area/Box.add_child(lab)
 			lab.position = Vector2(10, 60)
 			var tween = get_tree().create_tween()
