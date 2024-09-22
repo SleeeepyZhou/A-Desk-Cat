@@ -1,9 +1,25 @@
-[gd_resource type="Theme" load_steps=3 format=3 uid="uid://64m7i3rabojt"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://64m7i3rabojt"]
 
+[ext_resource type="Texture2D" uid="uid://1wwkyl1yerbo" path="res://Res/GUI.tres" id="1_2gdlc"]
 [ext_resource type="FontFile" uid="uid://bn3mv4pkx8ple" path="res://Res/fusion-pixel-10px-monospaced-zh_hans.woff2" id="1_oqpal"]
+[ext_resource type="Texture2D" uid="uid://oonit5350kfi" path="res://Res/GUI.png" id="2_t22xs"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ojwj6"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ts0s8"]
+texture = ExtResource("1_2gdlc")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kbu5e"]
+atlas = ExtResource("2_t22xs")
+region = Rect2(0, 64, 48, 32)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6c6vj"]
+texture = SubResource("AtlasTexture_kbu5e")
 
 [resource]
 default_font = ExtResource("1_oqpal")
-ProgressBar/styles/background = SubResource("StyleBoxTexture_ojwj6")
+default_font_size = 20
+MarginContainer/constants/margin_bottom = 15
+MarginContainer/constants/margin_left = 15
+MarginContainer/constants/margin_right = 15
+MarginContainer/constants/margin_top = 15
+Panel/styles/panel = SubResource("StyleBoxTexture_ts0s8")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_6c6vj")

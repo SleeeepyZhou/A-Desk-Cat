@@ -1,20 +1,5 @@
 extends Control
 
-func _ready():
-	get_viewport().files_dropped.connect(feed)
-
-const IMAGE_TYPE = ["JPG", "PNG", "BMP", "GIF", "TIF", "TIFF", "JPEG", "WEBP"]
-func feed(files):
-	var path : String = files[0]
-	if IMAGE_TYPE.has(path.get_extension().to_upper()):
-		var single_path := path
-		#var image = Image.load_from_file(path)
-		#$SingleImage/UpOut/ImageUp/Label.visible = false
-		#$SingleImage/UpOut/ImageUp.texture = ImageTexture.create_from_image(image)
-		#if path.get_extension().to_upper() == "PNG":
-			#var file = FileAccess.get_file_as_bytes(path)
-			#print(file)
-
 func _input(event):
 	if event and event.is_action_pressed("ui_cancel"):
 		_on_esc_pressed()
@@ -38,3 +23,73 @@ func _on_fish_toggled(toggled_on):
 		Input.set_custom_mouse_cursor(fish)
 	else:
 		Input.set_custom_mouse_cursor(null)
+
+func _ready():
+	get_viewport().files_dropped.connect(feed)
+	SAVE = (OS.get_executable_path().get_base_dir() + "/data.save").simplify_path()
+
+const IMAGE_TYPE = ["JPG", "PNG", "BMP", "GIF", "TIF", "TIFF", "JPEG", "WEBP"]
+var SAVE : String
+const prompt = "Please identify the items in the picture. If they are food, estimate their nutritional value."
+const format = {"type": "json_schema",
+				"json_schema": {"name": "Food_nutrition_estimation",
+								"strict": true,
+								"schema": {"type": "object",
+											"properties": {"isFood": { "type": "boolean" },
+															"foodName": { "type": "string" },
+															"foodNutrition": {"type": "object",
+																			"properties": {"enerage":{"type":"number"},
+																							"mass":{"type":"number",
+																									"description":"Estimated mass, in grams."},
+																							"carbohydrate": { "type": "number"},
+																							"protein": { "type": "number"},
+																							"fat": { "type": "number"},
+																							},
+																			"required": ["enerage", "mass", "carbohydrate", "protein", "fat"],
+																			"additionalProperties": false},
+															},
+											"required": ["isFood", "foodName", "foodNutrition"],
+											"additionalProperties": false}
+								}
+				}
+
+var last_food : String = "Unknown"
+func feed(files):
+	var path : String = files[0]
+	if $InfBox/Panel/Box/Setting/Setting/AI.button_pressed:
+		if IMAGE_TYPE.has(path.get_extension().to_upper()):
+			var image_path := path
+			var temp_an = await API.run_VLMapi(prompt, 1, 10, image_path, 1, format)
+			var an = JSON.parse_string(temp_an)
+			if an["isFood"]:
+				last_food = an["foodName"]
+				$"..".hungry += an["foodNutrition"]["enerage"] / 10
+				var time = Time.get_datetime_string_from_system()
+				if FileAccess.file_exists(SAVE):
+					var data = FileAccess.open(SAVE, FileAccess.READ).get_var()
+					data[time] = an
+					var dir = FileAccess.open(SAVE, FileAccess.WRITE)
+					dir.store_var(data)
+					dir.close()
+				else:
+					var dir = FileAccess.open(SAVE, FileAccess.WRITE)
+					dir.store_var({time:an})
+					dir.close()
+	else:
+		var data = FileAccess.open(path, FileAccess.READ).get_length() / 100000
+		last_food = "Unknown"
+		$"..".hungry += data
+
+
+
+'''
+食物能量，估算碳蛋脂，饮食记录
+健身计划，健康建议
+手机移动信息(手机接口)，走路，能量消耗
+肌肉猫，胖猫，瘦猫
+
+实验1回复
+{"foodName":"Dog kibble","foodNutrition":{"carbohydrate":50,"enerage":350,"fat":15,"mass":100,"protein":25},"isFood":true}
+
+'''
+

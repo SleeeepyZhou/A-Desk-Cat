@@ -7,7 +7,19 @@ extends CharacterBody2D
 
 @export var hungry : float = 100.0:
 	set(f):
-		hungry = clampf(f, 0.0, 100.0)
+		f = clampf(f, 0.0, 100.0)
+		if f - hungry > 1.0:
+			var add : String = $Panel.last_food + " + " + str(f - hungry)
+			var lab = Label.new()
+			lab.text = add
+			lab.rotation_degrees = -90
+			$Area/Box.add_child(lab)
+			lab.position = Vector2(10, 60)
+			var tween = get_tree().create_tween()
+			tween.parallel().tween_property(lab, "position", Vector2(-30, 60), 1.5)
+			tween.tween_property(lab, "modulate", Color.TRANSPARENT, 2)
+			tween.tween_callback(lab.queue_free)
+		hungry = f
 		$Panel/Box/Hunger.value = hungry
 @export var hungryt : float = 60.0
 @export var mulhunger = [0.1, 0.5, 1]
@@ -53,7 +65,7 @@ var is_run : bool = false:
 		else:
 			is_run = b
 var speed : Vector2 = Vector2.ZERO
-@export var pursue : float = 500
+@export var pursue : float = 800
 func _process(_delta):
 	var tempdir : Vector2 = Vector2.ZERO
 	if $Panel/ButtonBox/Keyboard.button_pressed:
@@ -69,7 +81,7 @@ func _process(_delta):
 			is_run = true
 		else:
 			is_run = false
-		if road.length() > 262:
+		if road.length() > 524:
 			tempdir.x = int(clamp(road.x, -1, 1))
 			tempdir.y = int(clamp(road.y, -1, 1))
 	speed = tempdir * rate

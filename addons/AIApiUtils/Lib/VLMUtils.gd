@@ -2,6 +2,7 @@ extends Node
 ## 数据预处理
 
 # 图片压缩及转码
+const FISH = preload("res://Res/Fish.png")
 const IMAGE_TYPE = ["JPG", "PNG", "BMP", "GIF", "TIF", "TIFF", "JPEG", "WEBP"]
 func zip_image(path : String, quality : String = "auto") -> Image:
 	var image = Image.load_from_file(path)
@@ -29,6 +30,8 @@ func zip_image(path : String, quality : String = "auto") -> Image:
 	image.resize(new_width, new_height)
 	return image
 func image_to_base64(path : String, quality : String = "auto") -> String:
+	if !IMAGE_TYPE.has(path.get_extension().to_upper()):
+		return ""
 	var image = zip_image(path, quality)
 	return Marshalls.raw_to_base64(image.save_jpg_to_buffer(0.90))
 
@@ -193,11 +196,16 @@ func openai_api(input : Array) -> String:
 		"model": mod,
 		"messages": [
 				{
+				"role": "system",
+				"content": "You are a helpful nutritionist."
+				},
+				{
 				"role": "user",
 				"content":
 						[{"type": "text", "text": inputprompt}]
 				}
 					],
+		"temperature": 0.2,
 		"max_tokens": 300
 		}
 	var headers : PackedStringArray = ["Content-Type: application/json", 
@@ -205,7 +213,7 @@ func openai_api(input : Array) -> String:
 	if !format.is_empty() and !is_run:
 		temp_data["response_format"] = format
 	if !base64image.is_empty():
-		temp_data["messages"][0]["content"].push_front(
+		temp_data["messages"][1]["content"].push_front(
 							{"type": "image_url", 
 							"image_url":
 								{"url": "data:image/jpeg;base64," + base64image,

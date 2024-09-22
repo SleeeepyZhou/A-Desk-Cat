@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://y07qlyd3dqgg"]
+[gd_scene load_steps=56 format=3 uid="uid://y07qlyd3dqgg"]
 
 [ext_resource type="Script" path="res://Lib/cat.gd" id="1_7nd7h"]
 [ext_resource type="SpriteFrames" uid="uid://dxrj7acu0bsh0" path="res://Res/bluecat_frames.tres" id="1_442ws"]
@@ -18,6 +18,17 @@
 [ext_resource type="Texture2D" uid="uid://bbfj87pynxv3u" path="res://Res/icon.png" id="16_negn7"]
 [ext_resource type="Texture2D" uid="uid://drfa86kb7j663" path="res://Res/icon.tres" id="17_48qkn"]
 [ext_resource type="Texture2D" uid="uid://cx5fxbliwbwja" path="res://Res/iconpress.png" id="17_mdf2b"]
+[ext_resource type="Texture2D" uid="uid://b14f1hv1b015d" path="res://Res/Back.tres" id="19_lawsp"]
+[ext_resource type="Script" path="res://Lib/InfBox.gd" id="19_lx8vx"]
+[ext_resource type="Texture2D" uid="uid://dbyx2njiluor5" path="res://Res/key.png" id="20_bwey1"]
+[ext_resource type="Texture2D" uid="uid://b2irnsshbr565" path="res://Res/Back.png" id="20_r8u78"]
+[ext_resource type="Texture2D" uid="uid://bnxxf6yhyijfw" path="res://Res/Save.png" id="21_idq1s"]
+[ext_resource type="Texture2D" uid="uid://qoy3u0sddksr" path="res://Res/SaveFile.png" id="22_fxva5"]
+[ext_resource type="Script" path="res://Lib/ReadSave.gd" id="23_goral"]
+[ext_resource type="Texture2D" uid="uid://1wwkyl1yerbo" path="res://Res/GUI.tres" id="24_h0ciy"]
+[ext_resource type="Texture2D" uid="uid://oonit5350kfi" path="res://Res/GUI.png" id="25_yrjpa"]
+[ext_resource type="FontFile" uid="uid://bn3mv4pkx8ple" path="res://Res/fusion-pixel-10px-monospaced-zh_hans.woff2" id="26_byvxs"]
+[ext_resource type="Texture2D" uid="uid://b6pswf86sp3hx" path="res://Res/load.png" id="27_t8ycm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sgod2"]
 radius = 55.0091
@@ -83,6 +94,54 @@ region = Rect2(8, 48, 16, 16)
 atlas = ExtResource("17_mdf2b")
 region = Rect2(8, 48, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ifkxq"]
+atlas = ExtResource("21_idq1s")
+region = Rect2(0, 0, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e4xvk"]
+atlas = ExtResource("21_idq1s")
+region = Rect2(0, 16, 32, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ts0s8"]
+texture = ExtResource("24_h0ciy")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kbu5e"]
+atlas = ExtResource("25_yrjpa")
+region = Rect2(0, 64, 48, 32)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6c6vj"]
+texture = SubResource("AtlasTexture_kbu5e")
+
+[sub_resource type="Theme" id="Theme_ebyby"]
+default_font = ExtResource("26_byvxs")
+default_font_size = 30
+MarginContainer/constants/margin_bottom = 15
+MarginContainer/constants/margin_left = 15
+MarginContainer/constants/margin_right = 15
+MarginContainer/constants/margin_top = 15
+Panel/styles/panel = SubResource("StyleBoxTexture_ts0s8")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_6c6vj")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ucfmg"]
+atlas = ExtResource("27_t8ycm")
+region = Rect2(0, 0, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w0fhl"]
+atlas = ExtResource("27_t8ycm")
+region = Rect2(0, 16, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kivnt"]
+atlas = ExtResource("21_idq1s")
+region = Rect2(0, 0, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ejuwk"]
+atlas = ExtResource("21_idq1s")
+region = Rect2(0, 16, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pupmr"]
+atlas = ExtResource("20_r8u78")
+region = Rect2(0, 16, 32, 16)
+
 [node name="Cat" type="CharacterBody2D"]
 input_pickable = true
 script = ExtResource("1_7nd7h")
@@ -127,7 +186,20 @@ shape = SubResource("RectangleShape2D_f3djn")
 disabled = true
 metadata/_edit_lock_ = true
 
+[node name="Box" type="Control" parent="Area"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("7_udwmp")
+
 [node name="Panel" type="Control" parent="."]
+visible = false
 custom_minimum_size = Vector2(262, 262)
 layout_mode = 3
 anchors_preset = 15
@@ -265,12 +337,213 @@ toggle_mode = true
 texture_normal = SubResource("AtlasTexture_ehffe")
 texture_pressed = SubResource("AtlasTexture_nywat")
 
+[node name="InfBox" type="MarginContainer" parent="Panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("19_lx8vx")
+
+[node name="Panel" type="PanelContainer" parent="Panel/InfBox"]
+layout_mode = 2
+
+[node name="Box" type="MarginContainer" parent="Panel/InfBox/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 45
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 35
+
+[node name="Setting" type="ScrollContainer" parent="Panel/InfBox/Panel/Box"]
+visible = false
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="Setting" type="VBoxContainer" parent="Panel/InfBox/Panel/Box/Setting"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="AI" type="CheckBox" parent="Panel/InfBox/Panel/Box/Setting/Setting"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+text = "AI"
+icon = ExtResource("20_bwey1")
+
+[node name="API" type="VBoxContainer" parent="Panel/InfBox/Panel/Box/Setting/Setting"]
+visible = false
+layout_mode = 2
+
+[node name="Url" type="HBoxContainer" parent="Panel/InfBox/Panel/Box/Setting/Setting/API"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/InfBox/Panel/Box/Setting/Setting/API/Url"]
+layout_mode = 2
+text = "Url"
+
+[node name="Url" type="LineEdit" parent="Panel/InfBox/Panel/Box/Setting/Setting/API/Url"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+
+[node name="Key" type="HBoxContainer" parent="Panel/InfBox/Panel/Box/Setting/Setting/API"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/InfBox/Panel/Box/Setting/Setting/API/Key"]
+layout_mode = 2
+text = "Key"
+
+[node name="Key" type="LineEdit" parent="Panel/InfBox/Panel/Box/Setting/Setting/API/Key"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+
+[node name="Save" type="TextureButton" parent="Panel/InfBox/Panel/Box/Setting/Setting/API"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 1
+texture_normal = SubResource("AtlasTexture_ifkxq")
+texture_pressed = SubResource("AtlasTexture_e4xvk")
+
+[node name="Read" type="HBoxContainer" parent="Panel/InfBox/Panel/Box/Setting/Setting"]
+layout_mode = 2
+alignment = 1
+
+[node name="ReadSave" type="TextureButton" parent="Panel/InfBox/Panel/Box/Setting/Setting/Read"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("22_fxva5")
+
+[node name="Save" type="Window" parent="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave"]
+initial_position = 4
+size = Vector2i(1000, 1000)
+visible = false
+script = ExtResource("23_goral")
+
+[node name="Box" type="MarginContainer" parent="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave/Save"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_ebyby")
+
+[node name="Box" type="VBoxContainer" parent="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave/Save/Box"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="ButtonBox" type="HBoxContainer" parent="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave/Save/Box/Box"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave/Save/Box/Box/ButtonBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 90
+text = "Day"
+
+[node name="Day" type="OptionButton" parent="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave/Save/Box/Box/ButtonBox"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+
+[node name="Load" type="TextureButton" parent="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave/Save/Box/Box/ButtonBox"]
+custom_minimum_size = Vector2(150, 90)
+layout_mode = 2
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+texture_normal = SubResource("AtlasTexture_ucfmg")
+texture_pressed = SubResource("AtlasTexture_w0fhl")
+stretch_mode = 5
+
+[node name="Save" type="TextureButton" parent="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave/Save/Box/Box/ButtonBox"]
+custom_minimum_size = Vector2(150, 90)
+layout_mode = 2
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+texture_normal = SubResource("AtlasTexture_kivnt")
+texture_pressed = SubResource("AtlasTexture_ejuwk")
+stretch_mode = 5
+
+[node name="Food" type="ScrollContainer" parent="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave/Save/Box/Box"]
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="FoodBox" type="VFlowContainer" parent="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave/Save/Box/Box/Food"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Panel/InfBox/Panel/Box/Setting/Setting/Read"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Read Save"
+
+[node name="Help" type="ScrollContainer" parent="Panel/InfBox/Panel/Box"]
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="HelpText" type="RichTextLabel" parent="Panel/InfBox/Panel/Box/Help"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+bbcode_enabled = true
+text = "This is a cat.
+You can control the cat's movement by clicking the \"Keyboard\" button and using the arrow keys and space, or by clicking the \"Fish\" icon and using your mouse to lure the cat to the desired location.
+Drag and drop files to feed the cat. In the settings, you can configure the AI API, which currently supports only GPT4omini. Without AI enabled, the cat's hunger level will be restored based on the file size. When AI is enabled, the cat's hunger level will be restored based on the estimated energy content of the food in the image, as determined by the AI. The AI will also store the estimated nutritional value in the archive and analyze your diet periodically. 
+
+[url=https://godotengine.org/]Godot[/url] Dev.
+by [url=https://github.com/SleeeepyZhou]SleeeepyZhou[/url]
+[url=https://space.bilibili.com/360375877]@Bilibili[/url]"
+fit_content = true
+
+[node name="InfBack" type="TextureButton" parent="Panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -109.0
+offset_bottom = -93.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("19_lawsp")
+texture_pressed = SubResource("AtlasTexture_pupmr")
+metadata/_edit_lock_ = true
+
 [connection signal="mouse_entered" from="." to="Panel" method="_on_cat_mouse_entered"]
-[connection signal="mouse_exited" from="." to="Panel" method="_on_cat_mouse_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="Hunger" to="." method="_on_hunger_timeout"]
 [connection signal="finished" from="Miao" to="." method="_on_miao_finished"]
 [connection signal="animation_changed" from="Animated" to="." method="_on_animation_changed"]
+[connection signal="mouse_exited" from="Panel" to="Panel" method="_on_cat_mouse_exited"]
 [connection signal="pressed" from="Panel/Esc" to="Panel" method="_on_esc_pressed"]
+[connection signal="pressed" from="Panel/Help" to="Panel/InfBox" method="_on_help_pressed"]
+[connection signal="pressed" from="Panel/ButtonBox/Setting" to="Panel/InfBox" method="_on_setting_pressed"]
 [connection signal="toggled" from="Panel/ButtonBox/Audio" to="Panel" method="_on_audio_toggled"]
 [connection signal="toggled" from="Panel/ButtonBox/Fish" to="Panel" method="_on_fish_toggled"]
+[connection signal="toggled" from="Panel/InfBox/Panel/Box/Setting/Setting/AI" to="Panel/InfBox" method="_on_ai_toggled"]
+[connection signal="pressed" from="Panel/InfBox/Panel/Box/Setting/Setting/API/Save" to="Panel/InfBox" method="_on_save_pressed"]
+[connection signal="pressed" from="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave" to="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave/Save" method="_on_read_save_pressed"]
+[connection signal="focus_entered" from="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave/Save" to="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave/Save" method="_on_focus_entered"]
+[connection signal="pressed" from="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave/Save/Box/Box/ButtonBox/Load" to="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave/Save" method="_on_load_pressed"]
+[connection signal="pressed" from="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave/Save/Box/Box/ButtonBox/Save" to="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave/Save" method="_on_save_pressed"]
+[connection signal="meta_clicked" from="Panel/InfBox/Panel/Box/Help/HelpText" to="Panel/InfBox" method="_on_help_text_meta_clicked"]
+[connection signal="pressed" from="Panel/InfBack" to="Panel/InfBox" method="_on_inf_back_pressed"]
