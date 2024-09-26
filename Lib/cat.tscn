@@ -219,6 +219,7 @@ mouse_filter = 2
 theme = SubResource("Theme_4ef7b")
 
 [node name="Panel" type="Control" parent="."]
+visible = false
 custom_minimum_size = Vector2(262, 262)
 layout_mode = 3
 anchors_preset = 15
@@ -365,6 +366,7 @@ texture_normal = SubResource("AtlasTexture_ehffe")
 texture_pressed = SubResource("AtlasTexture_nywat")
 
 [node name="InfBox" type="MarginContainer" parent="Panel"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -384,6 +386,7 @@ theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 35
 
 [node name="Setting" type="ScrollContainer" parent="Panel/InfBox/Panel/Box"]
+visible = false
 layout_mode = 2
 follow_focus = true
 horizontal_scroll_mode = 0
@@ -451,6 +454,7 @@ texture_normal = ExtResource("22_fxva5")
 [node name="Save" type="Window" parent="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave"]
 initial_position = 4
 size = Vector2i(1000, 1000)
+visible = false
 script = ExtResource("23_goral")
 
 [node name="Box" type="MarginContainer" parent="Panel/InfBox/Panel/Box/Setting/Setting/Read/ReadSave/Save"]
@@ -548,6 +552,7 @@ by [url=https://github.com/SleeeepyZhou]SleeeepyZhou[/url]
 fit_content = true
 
 [node name="InfBack" type="TextureButton" parent="Panel"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
