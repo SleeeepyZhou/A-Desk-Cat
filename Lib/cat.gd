@@ -140,4 +140,3 @@ func _on_animation_changed():
 
 func _on_miao_finished():
 	miaoing = false
-

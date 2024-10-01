@@ -105,8 +105,6 @@ func feed(files):
 		last_food = "Unknown"
 		$"..".hungry += data
 
-
-
 '''
 食物能量，估算碳蛋脂，饮食记录
 健身计划，健康建议

@@ -59,5 +59,3 @@ func _on_add_pressed():
 	new_unit.inf = zero_inf
 	data[new_unit.time] = new_unit.inf
 	$Box/Box/Food/FoodBox.add_child(new_unit)
-
-
